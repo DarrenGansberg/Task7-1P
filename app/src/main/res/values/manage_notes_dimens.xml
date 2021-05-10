@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="manage_notes_image_width">320dp</dimen>
+    <dimen name="manage_notes_image_height">180dp</dimen>
+    <dimen name="manage_notes_image_margin_top">64dp</dimen>
+    <dimen name="manage_notes_button_height">48dp</dimen>
+    <dimen name="manage_notes_button_margin">32dp</dimen>
+</resources>
