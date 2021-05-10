@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/note_cardview"
+    android:layout_width="match_parent"
+    android:layout_height="64dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginRight="16dp"
+    android:layout_marginEnd="16dp">
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/note_content_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</androidx.cardview.widget.CardView>

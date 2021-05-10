@@ -6,6 +6,6 @@
         android:id="@+id/manage_notes_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="com.darrengansberg.noteapp.ManageNotesFragment"
+        android:name="com.darrengansberg.noteapp.BrowseNotesFragment"
     />
 
