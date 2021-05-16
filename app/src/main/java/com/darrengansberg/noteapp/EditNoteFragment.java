@@ -17,10 +17,10 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link CreateNoteFragment#newInstance} factory method to
+ * Use the {@link EditNoteFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CreateNoteFragment extends Fragment {
+public class EditNoteFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -31,7 +31,7 @@ public class CreateNoteFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public CreateNoteFragment() {
+    public EditNoteFragment() {
         // Required empty public constructor
     }
 
@@ -41,11 +41,11 @@ public class CreateNoteFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment CreateNoteFragment.
+     * @return A new instance of fragment EditNoteFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static CreateNoteFragment newInstance(String param1, String param2) {
-        CreateNoteFragment fragment = new CreateNoteFragment();
+    public static EditNoteFragment newInstance(String param1, String param2) {
+        EditNoteFragment fragment = new EditNoteFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -66,17 +66,28 @@ public class CreateNoteFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_create_note, container, false);
+        return inflater.inflate(R.layout.fragment_edit_note, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Button saveButton = view.findViewById(R.id.save_note_button);
-        saveButton.setOnClickListener(new SaveButtonOnClickListener());
+        Button updateButton = view.findViewById(R.id.update_note_button);
+        updateButton.setOnClickListener(new UpdateButtonOnClickListener());
+        Button deleteButton = view.findViewById(R.id.delete_note_button);
+        deleteButton.setOnClickListener(new DeleteButtonOnClickListener());
     }
 
-    private class SaveButtonOnClickListener implements View.OnClickListener{
+    private class UpdateButtonOnClickListener implements View.OnClickListener{
+
+        @Override
+        public void onClick(View v) {
+            NavController controller = Navigation.findNavController(v);
+            controller.popBackStack();
+        }
+    }
+
+    private class DeleteButtonOnClickListener implements View.OnClickListener{
 
         @Override
         public void onClick(View v) {

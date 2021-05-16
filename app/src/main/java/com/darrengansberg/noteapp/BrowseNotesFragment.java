@@ -5,7 +5,10 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,6 +41,10 @@ public class BrowseNotesFragment extends Fragment {
     public BrowseNotesFragment() {
         // Required empty public constructor
         notes = new Vector<>();
+        for (int i = 1, count = 1000; i <= count; i++)
+        {
+            notes.add("String " + String.valueOf(i));
+        }
     }
 
     /**
@@ -87,16 +94,19 @@ public class BrowseNotesFragment extends Fragment {
         private class ViewHolder extends RecyclerView.ViewHolder{
 
             AppCompatTextView noteContentView;
+            CardView noteContainer;
 
             public ViewHolder(@NonNull View itemView) {
                 super(itemView);
                 noteContentView = itemView.findViewById(R.id.note_content_view);
+                noteContainer = itemView.findViewById(R.id.note_cardView);
             }
 
             public AppCompatTextView getNoteContentView()
             {
                 return noteContentView;
             }
+            public CardView getNoteContainer(){ return noteContainer;}
         }
 
         @NonNull
@@ -111,11 +121,21 @@ public class BrowseNotesFragment extends Fragment {
         public void onBindViewHolder(@NonNull NotesRecyclerAdapter.ViewHolder holder, int position) {
             String note = notes.get(position);
             holder.getNoteContentView().setText(note);
+            holder.getNoteContainer().setOnClickListener(new NoteCardOnClickListener());
         }
 
         @Override
         public int getItemCount() {
             return notes.size();
+        }
+
+        private class NoteCardOnClickListener implements View.OnClickListener{
+
+            @Override
+            public void onClick(View v) {
+                NavController controller = Navigation.findNavController(v);
+                controller.navigate(R.id.action_browseNotesFragment_to_editNoteFragment);
+            }
         }
     }
 }

@@ -2,11 +2,19 @@ package com.darrengansberg.noteapp;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -60,5 +68,39 @@ public class ManageNotesFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_manage_notes, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NotNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setupCreateNewNoteButton(view.findViewById(R.id.create_new_note_button));
+        setupShowNotesButton(view.findViewById(R.id.show_notes_button));
+    }
+
+    protected void setupCreateNewNoteButton(@NonNull AppCompatButton button)
+    {
+        button.setOnClickListener(new CreateNewNoteButtonOnClickListener());
+    }
+
+    protected void setupShowNotesButton(@NonNull AppCompatButton button)
+    {
+        button.setOnClickListener(new ShowNotesButtonOnClickListener());
+    }
+
+    private class CreateNewNoteButtonOnClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            NavController controller = Navigation.findNavController(v);
+            controller.navigate(R.id.action_manageNotesFragment_to_createNoteFragment, null);
+        }
+    }
+
+    private class ShowNotesButtonOnClickListener implements View.OnClickListener{
+
+        @Override
+        public void onClick(View v) {
+            NavController controller = Navigation.findNavController(v);
+            controller.navigate(R.id.action_manageNotesFragment_to_browseNotesFragment, null);
+        }
     }
 }
