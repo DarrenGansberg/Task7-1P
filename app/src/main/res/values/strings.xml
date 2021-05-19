@@ -5,4 +5,5 @@
     <string name="save_button_text">Save</string>
     <string name="update_note_button_text">Update</string>
     <string name="delete_note_button_text">Delete</string>
+    <string name="cancel_button_text">Cancel</string>
 </resources>

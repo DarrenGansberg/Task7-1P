@@ -5,9 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="64dp"
     android:layout_marginTop="16dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:background="@color/teal_200"
+
     >
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/note_content_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:background="@color/white"
+
+        />
 </androidx.cardview.widget.CardView>

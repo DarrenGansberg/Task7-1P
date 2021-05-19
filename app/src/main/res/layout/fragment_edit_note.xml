@@ -5,14 +5,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EditNoteFragment">
+    tools:context=".EditNoteFragment"
+    android:background="@color/background_color"
+    >
 
     <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/appCompatEditText3"
+        android:id="@+id/edit_note_content_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginBottom="96dp"
+        android:gravity="top|start"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+
         />
 
     <Button
@@ -23,7 +33,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/appCompatEditText3"
+        app:layout_constraintTop_toBottomOf="@+id/edit_note_content_view"
         android:text="@string/update_note_button_text"
         />
 
@@ -35,7 +45,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/appCompatEditText3"
+        app:layout_constraintTop_toBottomOf="@+id/edit_note_content_view"
         android:text="@string/delete_note_button_text"
         />
 

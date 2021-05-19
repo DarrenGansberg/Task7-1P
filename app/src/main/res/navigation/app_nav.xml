@@ -35,5 +35,9 @@
         android:id="@+id/editNoteFragment"
         android:name="com.darrengansberg.noteapp.EditNoteFragment"
         android:label="fragment_edit_note"
-        tools:layout="@layout/fragment_edit_note" />
+        tools:layout="@layout/fragment_edit_note" >
+        <argument
+            android:name="noteId"
+            app:argType="long" />
+    </fragment>
 </navigation>

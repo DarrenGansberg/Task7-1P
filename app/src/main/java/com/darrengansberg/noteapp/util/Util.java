@@ -7,6 +7,8 @@ public class Util {
     public static final String NOTES_TABLE_NAME = "notes";
 
     public static final String NOTE_ID = "note_id";
+    public static final int NOTE_ID_INDEX = 0;
     public static final String NOTE_CONTENT = "note_content";
+    public static final int NOTE_CONTENT_ID = 1;
 
 }

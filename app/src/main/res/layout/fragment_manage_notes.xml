@@ -17,6 +17,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_height="@dimen/manage_notes_image_height"
         tools:layout_width="@dimen/manage_notes_image_width"
+        android:src="@drawable/noteapp_background"
         />
 
     <com.google.android.material.button.MaterialButton

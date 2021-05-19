@@ -1,9 +1,12 @@
 package com.darrengansberg.noteapp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatEditText;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -12,43 +15,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
-import org.jetbrains.annotations.NotNull;
+import com.darrengansberg.noteapp.models.Note;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link EditNoteFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+/* The fragment that provides the app activity's view when the use wants to edit a note. */
 public class EditNoteFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private static final String ARG_NOTE_ID = "noteId";
+    private long noteId;
 
     public EditNoteFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment EditNoteFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static EditNoteFragment newInstance(String param1, String param2) {
+    public static EditNoteFragment newInstance(long noteId) {
         EditNoteFragment fragment = new EditNoteFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putLong(ARG_NOTE_ID, noteId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -57,8 +41,7 @@ public class EditNoteFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            noteId = getArguments().getLong(ARG_NOTE_ID);
         }
     }
 
@@ -72,27 +55,72 @@ public class EditNoteFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        NoteManager manager = new NoteManager();
+        Note note = manager.getById(view.getContext(), noteId);
+        AppCompatEditText contentView = view.findViewById(R.id.edit_note_content_view);
+        contentView.setText(note.getContent());
         Button updateButton = view.findViewById(R.id.update_note_button);
-        updateButton.setOnClickListener(new UpdateButtonOnClickListener());
+        updateButton.setOnClickListener(new UpdateButtonOnClickListener(note.getId()));
         Button deleteButton = view.findViewById(R.id.delete_note_button);
-        deleteButton.setOnClickListener(new DeleteButtonOnClickListener());
+        deleteButton.setOnClickListener(new DeleteButtonOnClickListener(note.getId()));
     }
 
     private class UpdateButtonOnClickListener implements View.OnClickListener{
 
+        private long noteId;
+
+        public UpdateButtonOnClickListener(long noteId)
+        {
+            this.noteId = noteId;
+        }
+
         @Override
         public void onClick(View v) {
+            NoteManager manager = new NoteManager();
+            Note note = manager.getById(v.getRootView().getContext(),noteId);
+            AppCompatEditText contentView = (v.getRootView())
+                    .findViewById(R.id.edit_note_content_view);
+            String updatedContent = contentView.getText().toString();
+            note.setContent(updatedContent);
+            manager.update(v.getRootView().getContext(), note);
             NavController controller = Navigation.findNavController(v);
             controller.popBackStack();
+
         }
     }
 
     private class DeleteButtonOnClickListener implements View.OnClickListener{
 
+        private long noteId;
+
+        public DeleteButtonOnClickListener(long noteId){
+            this.noteId = noteId;
+        }
+
         @Override
         public void onClick(View v) {
-            NavController controller = Navigation.findNavController(v);
-            controller.popBackStack();
+
+            AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
+            alertBuilder.setTitle("Delete Note")
+                        .setMessage("Delete this note?");
+            alertBuilder.setNegativeButton(R.string.cancel_button_text, (dialog, which) -> dialog.cancel());
+            alertBuilder.setPositiveButton(R.string.delete_note_button_text, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    try {
+                        NoteManager manager = new NoteManager();
+                        manager.delete(getContext(), noteId);
+                        NavController controller = Navigation.findNavController(v);
+                        controller.popBackStack();
+                    } catch (IllegalArgumentException ex){
+                        Toast.makeText(getContext(), "Unable to delete note", Toast.LENGTH_SHORT).show();
+                        NavController controller = Navigation.findNavController(v);
+                        controller.popBackStack();
+                    }
+                }
+            });
+            AlertDialog dialog = alertBuilder.show();
+
         }
     }
 }
